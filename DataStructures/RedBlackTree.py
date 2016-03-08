@@ -37,13 +37,13 @@ class node(object):
         self.left=None
         self.right=None
         self.parent=None
-        self.color=None
+        self.color=None  # black==0, red==1
 
 
 class RedBlackTree(object):
     def __init__(self):
-        self.root=None
         self.nil=node(None)
+        self.root=self.nil
 
     def search(self,val):
         if self.root==None:
@@ -117,8 +117,33 @@ class RedBlackTree(object):
                 x=x.parent
             return x.parent  # if n==min(self,root), it will return root's parent self.nil
 
-    def insert(self,val):
+    def insert_fixup(self,n):
         pass
+
+    def delete_fixup(self,n):
+        pass
+
+    def insert(self,val):
+        n=node(val)
+        x=self.root
+        y=self.nil
+        while x!=self.nil:
+            y=x
+            if val<x.key:
+                x=x.left
+            else:
+                x=x.right
+        if y==self.nil:
+            self.root=n
+        elif val<y.key:
+            y.left=n
+        else:
+            y.right=n
+        n.parent=y
+        n.left=self.nil
+        n.right=self.nil
+        n.color=1  # red
+        self.insert_fixup(n)
 
     def delete(self,val):
         pass
