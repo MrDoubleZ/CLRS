@@ -238,6 +238,7 @@ class BinarySearchTree(object):
                 y=y.parent
             return y
 
+    '''
     def delete(self,n):
         if n.left==None:
             self.transplant(n,n.right)
@@ -252,6 +253,21 @@ class BinarySearchTree(object):
             self.transplant(n,y)
             n.left.parent=y
             y.left=n.left
+    '''
+
+    def delete(self,x):  # a little different from CLRS
+        if x.right==None:
+            self.transplant(x,x.left)
+        else:
+            y=self.min(x.right)
+            if y!=x.right:
+                self.transplant(y,y.right)
+                x.right.parent=y
+                y.right=x.right
+            self.transplant(x,y)
+            x.left.parent=y
+            y.left=x.left
+            y.parent=x.parent
 
     def delete_find_predecessor(self,n):
         if n.left==None:
@@ -298,6 +314,9 @@ print bst.predecessor(bst.root).key  # 9
 print bst.predecessor(bst.root.right.left.left).key  # 12
 
 
-bst.delete_find_predecessor(bst.root.right.left)  # delete 15
+bst.delete(bst.root.right.left)  # delete 15
+bst.delete(bst.root.right.left)  # delete 17
+bst.delete(bst.root.right.left)  # delete 13
+
 
 bst.inorder_tree_walk_recursive()
